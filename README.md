@@ -19,7 +19,7 @@ cargo add contribution-grid
 ## Example
 
 ```rust
-use contribution_grid::{ContributionGraph, Theme, LinearStrategy};
+use contribution_grid::{ContributionGraph, builtins::Theme, builtins::Strategy};
 use chrono::NaiveDate;
 use std::collections::HashMap;
 
@@ -31,7 +31,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Use a built-in theme with a linear mapping strategy
     let img = ContributionGraph::new()
         .with_data(data)
-        .theme(Theme::blue(LinearStrategy))
+        .theme(Theme::blue(Strategy::linear()))
         .generate();
 
     img.save("graph.png")?;
@@ -41,16 +41,26 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ## Mapping Strategies
 
-The library supports different ways to map contribution counts to colors:
+The library supports different ways to map contribution counts to colors via the [`Strategy`] factory:
 
-- **`LinearStrategy`**: Maps counts linearly based on the maximum count in the dataset.
-- **`LogarithmicStrategy`**: Emphasizes differences at lower values.
-- **`ThresholdStrategy`**: Uses fixed user-defined thresholds.
+- **`Strategy::linear()`**: Maps counts linearly based on the maximum count in the dataset.
+- **`Strategy::logarithmic()`**: Emphasizes differences at lower values.
+- **`Strategy::threshold(vec![...])`**: Uses fixed user-defined thresholds.
+
+You can also use the strategy structs directly:
+
+- **`LinearStrategy`**: Linear percentile-based mapping.
+- **`LogarithmicStrategy`**: Logarithmic mapping.
+- **`ThresholdStrategy::new(vec![...])`**: Fixed threshold mapping.
 
 ```rust
-use contribution_grid::{Theme, ThresholdStrategy};
+use contribution_grid::builtins::{Theme, Strategy};
 
-// Use fixed thresholds: 0, 1-4, 5-9, 10-19, 20+
+// Use the factory (recommended)
+let palette = Theme::github(Strategy::linear());
+
+// Or use structs directly
+use contribution_grid::ThresholdStrategy;
 let palette = Theme::github(ThresholdStrategy::new(vec![1, 5, 10, 20]));
 ```
 
