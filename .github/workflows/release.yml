@@ -74,6 +74,8 @@ jobs:
     needs: [changelog]
     if: ${{ needs.changelog.outputs.skipped != 'true' }}
     runs-on: ubuntu-latest
+    environment:
+      name: crates-io-production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
