@@ -8,6 +8,13 @@ version = "0.1.0"
 
 
 edition = "2024"
+authors = ["FAZuH <mail@fazuh.com>"]
+description = "A Rust crate for generating customizable, GitHub-style contribution heatmap graphs as images"
+license = "MIT"
+repository = "https://github.com/fazuh/contribution-grid"
+keywords = ["graph", "visualization", "contribution", "heatmap"]
+categories = ["visualization"]
+
 
 [dependencies]
 chrono = "0.4"
