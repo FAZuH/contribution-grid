@@ -198,8 +198,31 @@ impl ContributionGraph {
         self
     }
 
+    /// Generates the contribution graph image based on the current configuration.
+    pub fn generate(&self) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
+        let (start, end) = self.calculate_date_range();
+        let (width, height) = self.calculate_dimensions(start, end);
+
+        let max_count = self.data.values().cloned().max().unwrap_or(0);
+
+        let mut img = ImageBuffer::from_pixel(width, height, self.background_color);
+
+        let mut curr = start;
+        while curr <= end {
+            let count = self.data.get(&curr).cloned().unwrap_or(0);
+            let color = self.palette.get_color(count, max_count);
+
+            let (x, y) = self.get_coordinates(curr, start);
+            self.draw_cell(&mut img, x, y, color);
+
+            curr += Duration::days(1);
+        }
+
+        img
+    }
+
     /// Calculates the effective start and end dates for the graph.
-    pub fn calculate_date_range(&self) -> (NaiveDate, NaiveDate) {
+    fn calculate_date_range(&self) -> (NaiveDate, NaiveDate) {
         let current_year = chrono::Utc::now().naive_utc().year();
         let start = self.start_date.unwrap_or_else(|| {
             if self.data.is_empty() {
@@ -221,7 +244,7 @@ impl ContributionGraph {
     }
 
     /// Calculates the dimensions (width, height) of the resulting image.
-    pub fn calculate_dimensions(&self, start: NaiveDate, end: NaiveDate) -> (u32, u32) {
+    fn calculate_dimensions(&self, start: NaiveDate, end: NaiveDate) -> (u32, u32) {
         let start_weekday = start.weekday().num_days_from_sunday() as i32;
         let total_days = (end - start).num_days() as i32 + 1;
         let weeks = (total_days + start_weekday + 6) / 7;
@@ -233,7 +256,7 @@ impl ContributionGraph {
     }
 
     /// Calculates the (x, y) coordinates for a given date relative to the start date.
-    pub fn get_coordinates(&self, date: NaiveDate, start: NaiveDate) -> (i32, i32) {
+    fn get_coordinates(&self, date: NaiveDate, start: NaiveDate) -> (i32, i32) {
         let start_weekday = start.weekday().num_days_from_sunday() as i32;
         let day_idx = date.weekday().num_days_from_sunday() as i32;
         let days_from_start = (date - start).num_days() as i32;
@@ -290,29 +313,6 @@ impl ContributionGraph {
                 }
             }
         }
-    }
-
-    /// Generates the contribution graph image based on the current configuration.
-    pub fn generate(&self) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
-        let (start, end) = self.calculate_date_range();
-        let (width, height) = self.calculate_dimensions(start, end);
-
-        let max_count = self.data.values().cloned().max().unwrap_or(0);
-
-        let mut img = ImageBuffer::from_pixel(width, height, self.background_color);
-
-        let mut curr = start;
-        while curr <= end {
-            let count = self.data.get(&curr).cloned().unwrap_or(0);
-            let color = self.palette.get_color(count, max_count);
-
-            let (x, y) = self.get_coordinates(curr, start);
-            self.draw_cell(&mut img, x, y, color);
-
-            curr += Duration::days(1);
-        }
-
-        img
     }
 }
 
