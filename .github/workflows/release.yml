@@ -94,6 +94,9 @@ jobs:
           registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
           # Gracefully handle if no new version to publish
           ignore-unpublished-changes: true
+          # changelog job modifies Cargo.lock by bumping the Cargo version.
+          # Will cause an error without this option:
+          args: --allow-dirty
   
   release-github:
     name: Release to GitHub
