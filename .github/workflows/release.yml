@@ -83,6 +83,9 @@ jobs:
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
       
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+
       - name: Publish to crates.io
         uses: katyo/publish-crates@v2
         with:
