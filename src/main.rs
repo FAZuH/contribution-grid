@@ -6,8 +6,8 @@ use chrono::Datelike;
 use chrono::Duration;
 use chrono::NaiveDate;
 use contribution_grid::ContributionGraph;
-use contribution_grid::LinearStrategy;
-use contribution_grid::Theme;
+use contribution_grid::builtins::LinearStrategy;
+use contribution_grid::builtins::Theme;
 
 struct MockData;
 
