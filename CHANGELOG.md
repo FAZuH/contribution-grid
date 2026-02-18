@@ -1,3 +1,20 @@
+## [2.0.1](https://github.com/FAZuH/contribution-grid/compare/v2.0.0...v2.0.1) (2026-02-18)
+
+
+### Miscellaneous Chores
+
+* Update dependency versions ([d38f78f](https://github.com/FAZuH/contribution-grid/commit/d38f78fa625345acbb3d01ddee4caafb33b60dd8))
+
+
+### Build System
+
+* Add dev.sh ([b46df29](https://github.com/FAZuH/contribution-grid/commit/b46df290b74ccc7078288c625a32742295044809))
+
+
+### Continuous Integration
+
+* Require approval before publishing to crates.io ([87a2ff9](https://github.com/FAZuH/contribution-grid/commit/87a2ff90d4e1b2e303307f1fef10a6579e429e0f))
+
 ## [2.0.0](https://github.com/FAZuH/contribution-grid/compare/v1.0.2...v2.0.0) (2026-02-13)
 
 
@@ -19,6 +36,11 @@ After:
 - Created src/builtins.rs containing Theme factory, Strategy factory, and strategy impls
 - Moved LinearStrategy, LogarithmicStrategy, ThresholdStrategy to builtins
 - Added Strategy factory for creating builtint strategy instances
+
+### Miscellaneous Chores
+
+* **release:** v2.0.0 ([b0863d0](https://github.com/FAZuH/contribution-grid/commit/b0863d06bdad404225f688ddb7fb6f337bbf7417))
+
 
 ### Code Refactoring
 
