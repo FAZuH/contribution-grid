@@ -15,8 +15,11 @@ repository = "https://github.com/fazuh/contribution-grid"
 keywords = ["graph", "visualization", "contribution", "heatmap"]
 categories = ["visualization"]
 
-
 [dependencies]
 chrono = "0.4.43"
 image = "0.25.9"
 imageproc = "0.26.0"
+
+[[bin]]
+name = "gen_previews"
+path = "src/bin/gen_previews.rs"

@@ -6,8 +6,10 @@ use chrono::Datelike;
 use chrono::Duration;
 use chrono::NaiveDate;
 use contribution_grid::ContributionGraph;
+use contribution_grid::Palette;
 use contribution_grid::builtins::LinearStrategy;
 use contribution_grid::builtins::Theme;
+use image::Rgba;
 
 struct MockData;
 
@@ -65,7 +67,7 @@ impl MockData {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let output_dir = "result/output/image output example";
+    let output_dir = "docs";
     if !Path::new(output_dir).exists() {
         fs::create_dir_all(output_dir)?;
     }
@@ -122,6 +124,41 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .generate()
         .save(format!("{}/red_theme_sparse.png", output_dir))?;
     println!("✅ Generated Red Theme (Sparse)");
+
+    // 5. Custom Small Boxes
+    ContributionGraph::new()
+        .with_data(random_data.clone())
+        .start_date(start_date)
+        .end_date(end_date)
+        .box_size(6)
+        .gap(1)
+        .margin(10)
+        .theme(Theme::github(LinearStrategy))
+        .generate()
+        .save(format!("{}/custom_small_boxes.png", output_dir))?;
+    println!("✅ Generated Custom Small Boxes");
+
+    // 6. Custom Neon Theme
+    let neon_palette = Palette::new(
+        vec![
+            Rgba([10, 10, 30, 255]),
+            Rgba([0, 255, 255, 255]),
+            Rgba([255, 0, 255, 255]),
+            Rgba([255, 255, 0, 255]),
+            Rgba([255, 128, 0, 255]),
+        ],
+        LinearStrategy,
+    );
+    ContributionGraph::new()
+        .with_data(random_data.clone())
+        .start_date(start_date)
+        .end_date(end_date)
+        .theme(neon_palette)
+        .background_color(Rgba([5, 5, 15, 255]))
+        .round_corners(false)
+        .generate()
+        .save(format!("{}/custom_neon_theme.png", output_dir))?;
+    println!("✅ Generated Custom Neon Theme");
 
     Ok(())
 }

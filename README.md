@@ -60,7 +60,7 @@ use contribution_grid::builtins::{Theme, Strategy};
 let palette = Theme::github(Strategy::linear());
 
 // Or use structs directly
-use contribution_grid::ThresholdStrategy;
+use contribution_grid::builtins::ThresholdStrategy;
 let palette = Theme::github(ThresholdStrategy::new(vec![1, 5, 10, 20]));
 ```
 
