@@ -16,7 +16,7 @@ jobs:
     name: Release
     uses: ./.github/workflows/_release.yml
     with:
-      binary-name: contribution-grid
+      binary-name: gen_previews
       platforms: linux
       publish-crates: true
     secrets: inherit
